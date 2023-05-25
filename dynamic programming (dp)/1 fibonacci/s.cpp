@@ -9,12 +9,12 @@ int main(){
         cout<<n<<endl;
         return 0;
     }
-    int previous1=0,previous2=1;
+    int pre2=0,pre=1;
     n--;
     while(n--){
-        int temp=previous2;
-        previous2=previous1+previous2;
-        previous1=temp;
+        int temp=pre;
+        pre=pre2+pre;
+        pre2=temp;
     }
-    cout<<previous2<<endl;
+    cout<<pre<<endl;
 }
