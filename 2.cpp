@@ -1,20 +1,10 @@
-// Example: defining the constructor within the class
-
-#include <iostream>
+// TC: O()
+// SC: O()
+#include <bits/stdc++.h>
 using namespace std;
-int n=1;
-class student {
 
-   public:
-    int rno=temp();
-    int temp(){
-        return n++;
-
-    }
-};
-
-int main() {
-    student s,s2;  // constructor gets called automatically when we create the object of the class
-    cout<<s2.rno<<endl;
+int main(){
+    int i=false;
+    cout<<i<<endl;
     return 0;
 }

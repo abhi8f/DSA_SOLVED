@@ -1,92 +1,33 @@
+// TC: O(n*k)
+// SC: O(2k) = O(k)
 #include <bits/stdc++.h>
 using namespace std;
 
-/*
-    Your Trie object will be instantiated and called as such:
-    Trie* obj = new Trie();
-    obj->insert(word);
-    bool check2 = obj->search(word);
-    bool check3 = obj->startsWith(prefix);
- */
-const int ALPHABET_SIZE = 26;
-class Trie {
-   private:
-    // trie node
-    struct TrieNode {
-        struct TrieNode *children[ALPHABET_SIZE];
+class Solution {
+public:
+    int subarraySum(vector<int>& nums, int k) {
+    int n=nums.size();
+    vector<int> pre(k+1, 0), cur(k+1, 0);
 
-        // isEndOfWord is true if the node represents
-        // end of a word
-        bool isEndOfWord;
-    };
-    struct TrieNode *root = newNode();
+    pre[0]=1; cur[0]=1;
+    if (nums[0]<=k) pre[nums[0]] = 1;
 
-    // Returns new trie node (initialized to NULLs)
-    struct TrieNode *newNode(void) {
-        struct TrieNode *pNode = new TrieNode;
-
-        pNode->isEndOfWord = false;
-
-        for (int i = 0; i < ALPHABET_SIZE; i++)
-            pNode->children[i] = NULL;
-
-        return pNode;
+    for(int i=1; i<n; i++){
+        for(int j=1; j<=k; j++) 
+            cur[j]= pre[j] + ((j-nums[i])<0?0:pre[j-nums[i]]);
+        pre=cur;
     }
-   public:
-
-    /** Initialize your data structure here. */
-    Trie() {
-    }
-
-    /** Inserts a word into the trie. */
-    void insert(string word) {
-        struct TrieNode *pCrawl = root;
-
-        for (int i = 0; i < word.length(); i++) {
-            int index = word[i] - 'a';
-            if (!pCrawl->children[index])
-                pCrawl->children[index] = newNode();
-
-            pCrawl = pCrawl->children[index];
-        }
-
-        // mark last node as leaf
-        pCrawl->isEndOfWord = true;
-    }
-
-    /** Returns if the word is in the trie. */
-    bool search(string word) {
-        struct TrieNode *pCrawl = root;
-
-        for (int i = 0; i < word.length(); i++) {
-            int index = word[i] - 'a';
-            if (!pCrawl->children[index])
-                return false;
-
-            pCrawl = pCrawl->children[index];
-        }
-
-        return (pCrawl->isEndOfWord);
-    }
-
-    /** Returns if there is any word in the trie that starts with the given prefix. */
-    bool startsWith(string prefix) {
-        struct TrieNode *pCrawl = root;
-
-        for (int i = 0; i<prefix.length(); i++) {
-            int index = prefix[i] - 'a';
-            if (!pCrawl->children[index])
-                return false;
-
-            pCrawl = pCrawl->children[index];
-        }
-
-        return true;
+    return pre[k];   
     }
 };
 
 int main() {
-    Trie t;
-
+    int k=2;
+    vector<int> nums{1,1 ,1};
+    // int k=3;
+    // vector<int> nums{1,2 ,3};
+    Solution s;
+    cout<<s.subarraySum(nums, k);
+    // cout<<subsetSumToK(n, k, nums);
     return 0;
 }
