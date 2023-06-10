@@ -1,3 +1,5 @@
+// TC : O(n*m*log(n*m))
+// SC : O(n*m) + O(n*m) = O(n*m)
 //{ Driver Code Starts
 // Initial Template for C++
 #include <bits/stdc++.h>

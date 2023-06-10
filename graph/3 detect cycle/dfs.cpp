@@ -1,69 +1,45 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-
-void dfs(int node, vector<int> al[], int vv[], vector<int> &ls) {
-    vv[node] = 1;
-    ls.push_back(node);
-
-    for (auto it : al[node]) {
-        if (!vv[it]) {
-            dfs(it, al, vv, ls);
-        }
-    }
-}
-vector<int> dfsRecursive(int V, vector<int> al[]) {
-    int vv[V] = {0};
-    int start = 0;
-
-    vector<int> ls;
-
-    dfs(start, al, vv, ls);
-    return ls;
-}
-
-vector<int> dfsIterative(int V, vector<int> al[]) {
-    vector<bool> vv(V, false);
-    stack<int> s;
-    vector<int> dfs;
-    vv[0] = true; s.push(0);
-    while(!s.empty()){
-        int top = s.top(); s.pop();
-        dfs.push_back(top);
-        for(int i: al[top]){
-            if (!vv[i]){
-                s.push(i);
-                vv[i]=true;
+class Solution {
+  private: 
+    bool dfs(int node, int parent, int vis[], vector<int> adj[]) {
+        vis[node] = 1; 
+        // visit adjacent nodes
+        for(auto adjacentNode: adj[node]) {
+            // unvisited adjacent node
+            if(!vis[adjacentNode]) {
+                if(dfs(adjacentNode, node, vis, adj) == true) 
+                    return true; 
             }
+            // visited node but not a parent node
+            else if(adjacentNode != parent) return true; 
         }
+        return false; 
     }
-    return dfs;
-}
-
-void addEdge(vector<int> al[], int u, int v) {
-    al[u].push_back(v);
-    al[v].push_back(u);
-}
-
-void printVector(vector<int> &ans) {
-    for (int i = 0; i < ans.size(); i++)
-        cout << ans[i] << " ";
-    cout<<endl;
-}
+  public:
+    // Function to detect cycle in an undirected graph.
+    bool isCycle(int V, vector<int> adj[]) {
+       int vis[V] = {0}; 
+       // for graph with connected components 
+       for(int i = 0;i<V;i++) {
+           if(!vis[i]) {
+               if(dfs(i, -1, vis, adj) == true) return true; 
+           }
+       }
+       return false; 
+    }
+};
 
 int main() {
-    vector<int> al[5];
-
-    addEdge(al, 0, 2);
-    addEdge(al, 2, 4);
-    addEdge(al, 0, 1);
-    addEdge(al, 0, 3);
-
-    // recursive traverses by left side , iterative by right side
-    vector<int> ans = dfsRecursive(5, al);
-    printVector(ans);
-    vector<int> ans2 = dfsIterative(5, al);
-    printVector(ans2);
-
+    
+    // V = 4, E = 2
+    vector<int> adj[4] = {{}, {2}, {1, 3}, {2}};
+    Solution obj;
+    bool ans = obj.isCycle(4, adj);
+    if (ans)
+        cout << "1\n";
+    else
+        cout << "0\n";
     return 0;
 }

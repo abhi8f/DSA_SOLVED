@@ -1,3 +1,5 @@
+// TC : O(n*m*log(n*m))
+// SC : O(n*m) + O(n*m) = O(n*m)
 //{ Driver Code Starts
 // Initial Template for C++
 #include <bits/stdc++.h>
@@ -10,30 +12,28 @@ using namespace std;
 
 class Solution {
   public:
-    void dfs(vector<vector<int>> &grid, vector<vector<bool>> &vv, vector<pair<int, int>> &v, int i, int j, int is, int js){
+    void dfs(vector<vector<char>> &grid, vector<vector<bool>> &vv, int i, int j){
         int row = grid.size(), col = grid[0].size();
-        if(i<0 || i>=row || j<0 || j>=col || !grid[i][j] || vv[i][j]) return;
+        if(i<0 || i>=row || j<0 || j>=col || grid[i][j]=='0' || vv[i][j]) return;
         vv[i][j] = true;
-        v.push_back({i-is, j-js});
-        dfs(grid, vv, v,i+1, j, is, js);
-        dfs(grid, vv, v,i-1, j, is, js);
-        dfs(grid, vv, v,i, j+1, is, js);
-        dfs(grid, vv, v,i, j-1, is, js);
+        dfs(grid, vv, i+1, j);
+        dfs(grid, vv, i-1, j);
+        dfs(grid, vv, i, j+1);
+        dfs(grid, vv, i, j-1);
     }
-    int countDistinctIslands(vector<vector<int>>& grid) {
+    int numIslands(vector<vector<char>>& grid) {
         int row = grid.size(), col = grid[0].size();
         vector<vector<bool>> vv(row, vector<bool>(col, false));
-        set<vector<pair<int, int>>> s;
+        int ans = 0;
         for(int i=0;i<row;i++){
             for(int j=0;j<col;j++){
-                if(grid[i][j] && !vv[i][j]){
-                    vector<pair<int, int>> v;
-                    dfs(grid, vv, v, i, j, i, j);
-                    s.insert(v);
+                if(grid[i][j]=='1' && !vv[i][j]){
+                    dfs(grid, vv, i, j);
+                    ans++;
                 }
             }
         }
-        return s.size();
+        return ans;
     }
 };
 
