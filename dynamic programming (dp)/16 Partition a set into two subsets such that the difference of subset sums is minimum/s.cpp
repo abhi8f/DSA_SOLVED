@@ -3,11 +3,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void printVector(vector<int> &v) {
-    for (int i=0; i<v.size(); i++) cout << v[i] << " ";
-    cout << endl;
-}
-
 int minSubsetSumDifference(vector<int>& arr, int n) {
     double k = 0;
     for (int i = 0; i < n; i++) k += arr[i];
@@ -16,7 +11,7 @@ int minSubsetSumDifference(vector<int>& arr, int n) {
     int floatingCase = (int)k == k ? 0 : 1;
     k = (int)k;
     vector<int> pre(k + 1, 0), cur(k + 1, 0);
-    for (int i = 0; i <= k; i++) pre[i] = (i - arr[0]) >= 0 ? (i - arr[0]) : i;
+    for (int i = 0; i <= k; i++) pre[0] = (i - arr[0]) >= 0 ? (i - arr[0]) : i;
     for (int i = 1; i < n; i++) {
         for (int j = 1; j <= k; j++)
             cur[j] = min(pre[j], (j - arr[i]) >= 0 ? pre[j - arr[i]] : INT_MAX);
