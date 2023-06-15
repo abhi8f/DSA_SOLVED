@@ -22,8 +22,8 @@ int main() {
 3 1
 1 0 1
 */
-    int tar=3;
-    vector<int> num{ 1, 2, 2, 3};
+    int tar=1;
+    vector<int> num{0, 0 , 0, 1};
     cout << findWays(num, tar) << endl;
     return 0;
 }
