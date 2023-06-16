@@ -1,5 +1,5 @@
-// TC: O()
-// SC: O()
+// TC: O(n*target)
+// SC: O(target) + O(n*target) = O(n*target)
 #include <bits/stdc++.h>
 using namespace std;
 

@@ -1,23 +1,22 @@
-// TC: O()
-// SC: O()
+// TC: O((target/num[i])^n))
+// SC: O(target)
 #include <bits/stdc++.h>
 using namespace std;
 
-int r(int i, int x,vector<int> &num, vector<vector<int>> &mv) {
+int r(int i, int x,vector<int> &num) {
     if (x==0) return 0;
     if (i < 0) return 1e8;
-    if (mv[i][x] != -1) return mv[i][x];
 
-    int ans = r(i - 1, x, num, mv);
+    int ans = r(i - 1, x, num);
     for (int m = 1; m <= x / num[i]; m++) {
-        ans = min(ans, r(i - 1, x - m * num[i], num, mv) + m);
+        ans = min(ans, r(i - 1, x - m * num[i], num) + m);
     }
-    return mv[i][x] = ans;
+    return ans;
 }
 
 int minimumElements(vector<int> &num, int x) {
     vector<vector<int>> mv(num.size(), vector<int>(x + 1, -1));
-    int ans=r(num.size() - 1, x, num, mv);
+    int ans=r(num.size() - 1, x, num);
     return ans==1e8?-1:ans;
 }
 

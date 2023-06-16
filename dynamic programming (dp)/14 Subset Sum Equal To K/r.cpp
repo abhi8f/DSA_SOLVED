@@ -1,4 +1,4 @@
-// TC: O(2^(n*k))
+// TC: O(2^n)
 // SC: O(n)
 #include <bits/stdc++.h>
 using namespace std;
