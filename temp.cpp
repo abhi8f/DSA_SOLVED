@@ -1,29 +1,24 @@
-// TC: O(n*k)
-// SC: O(2k) = O(k)
 #include <bits/stdc++.h>
 using namespace std;
 
-bool subsetSumToK(int n, int k, vector<int> &nums) {
-    vector<bool> pre(k+1, false), cur(k+1, false);
-
-    pre[0]=true; cur[0]=true;
-    if (nums[0]<=k) pre[nums[0]] = true;
-
-    for(int i=1; i<n; i++){
-        for(int j=1; j<=k; j++) 
-            cur[j]= pre[j]?true: (j-nums[i]<0?false:pre[j-nums[i]]);
-        pre=cur;
+class Solution {
+   public:
+    int longestCommonSubsequence(string text1, string text2) {
+        int row = text1.size(), col = text2.size();
+        if (row == 0 || col == 0) return 0;
+        vector<int> pre(col, 0), cur(col, 0);
+        for (int j = 0; j < col; j++) pre[j] = text1[0] == text2[j] ? 1 : 0;
+        for (int i = 1; i < row; i++) {
+            for (int j = 0; j < col; j++)
+                cur[j] = text1[i] == text2[j] ? 1 + pre[j - 1] : max(pre[j], cur[j - 1]);
+            pre = cur;
+        }
+        return pre[col - 1];
     }
-    return pre[k];
-}
+};
 
 int main() {
-    /*
-    4 5
-    4 3 2 1
-    */
-    int n=4, k=5;
-    vector<int> nums{4,3,2,1};
-    cout<<subsetSumToK(n, k, nums);
+    Solution sol;
+    cout << sol.longestCommonSubsequence("abcde", "ace") << endl;
     return 0;
 }
