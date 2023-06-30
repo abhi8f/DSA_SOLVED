@@ -3,18 +3,29 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int lcs(string &str1, string &str2) {
-    int row = str1.size(), col = str2.size();
-    if (row == 0 || col == 0) return 0;
-    vector<vector<int>> dp(row, vector<int>(col, 0));
-    int ans = 0;
-    for(int i=0;i<row;i++)
-        for(int j=0;j<col;j++)
-            if (str1[i]==str2[j])ans = max(ans, dp[i][j]=1+(i>0 && j>0?dp[i-1][j-1]:0));
+int lcs(string s1, string s2) {
     
-    return ans;
+    int n=s1.size();
+    int m=s2.size();
+
+    vector<vector<int>> dp(n+1,vector<int>(m+1,0));
+    
+    for(int ind1=1;ind1<=n;ind1++){
+        for(int ind2=1;ind2<=m;ind2++){
+            if(s1[ind1-1]==s2[ind2-1])
+                dp[ind1][ind2] = 1 + dp[ind1-1][ind2-1];
+            else
+                dp[ind1][ind2] = 0 + max(dp[ind1-1][ind2],dp[ind1][ind2-1]);
+        }
+    }
+    
+    return dp[n][m];
 }
 
 int main() {
+    string s1="wxwpncnsmtntswuatzidmhsbtfkspobxdgibvpzsrjcszbpttpmixgw";
+    string s2=s1;
+    reverse(s2.begin(), s2.end());
+    cout<<s1.size()-lcs(s1, s2)<<"\n";
     return 0;
 }

@@ -3,17 +3,24 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int lcs(string str1, string str2) {
-    int row = str1.size(), col = str2.size();
-    if (row == 0 || col == 0) return 0;
-    vector<int> cur(col, 0);
-    int ans = 0;
-    for(int i=0;i<row;i++)
-        for(int j=col-1;j>=0;j--)
-            if (str1[i]==str2[j])ans=max(ans, cur[j]=1+(i>0 && j>0?cur[j-1]:0));
-            else cur[j] = 0;
+int lcs(string s1, string s2) {
     
-    return ans;
+    int n=s1.size();
+    int m=s2.size();
+
+    vector<int> prev(m+1,0), cur(m+1,0);
+    
+    for(int ind1=1;ind1<=n;ind1++){
+        for(int ind2=1;ind2<=m;ind2++){
+            if(s1[ind1-1]==s2[ind2-1])
+                cur[ind2] = 1 + prev[ind2-1];
+            else
+                cur[ind2] = 0 + max(prev[ind2],cur[ind2-1]);
+        }
+        prev= cur;
+    }
+    
+    return prev[m];
 }
 
 int main() {
