@@ -1,0 +1,12 @@
+    "//commentstart": "toogle intellisence c++///////////////////////////////////////////////////////////////////////////////////////////////////////",
+
+    "github.copilot.enable": {
+        "*": false,
+    },
+    "C_Cpp.autocomplete": "disabled",
+    "C_Cpp.configurationWarnings": "disabled",
+    "C_Cpp.default.enableConfigurationSquiggles": false,
+    "C_Cpp.errorSquiggles": "disabled",
+    "C_Cpp.intelliSenseUpdateDelay": 3000,
+    "C_Cpp.codeAnalysis.updateDelay": 6000,
+    "//commentend": "toogle intellisence c++///////////////////////////////////////////////////////////////////////////////////////////////////////",
