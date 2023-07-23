@@ -5,12 +5,13 @@ using namespace std;
 
 
 int maximumProfit(int n, int fee, vector<int> &prices) {
-    vector<vector<int>> dp(n + 1, vector<int>(2, 0));
+    vector<int> next(2,0), cur(2,0);
     for (int i = n - 1; i >= 0; i--) {
-        dp[i][0] = max(dp[i + 1][0], dp[i + 1][1] - prices[i] - fee);
-        dp[i][1] = max(dp[i + 1][1], dp[i + 1][0] + prices[i]);
+        cur[0] = max(next[0], next[1] - prices[i] - fee);
+        cur[1] = max(next[1], next[0] + prices[i]);
+        swap(cur,next);
     }
-    return dp[0][0];
+    return next[0];
 }
 
 int main() {
