@@ -49,7 +49,7 @@ class Solution {
    private:
     vector<vector<int>> adjList;
     vector<vector<string>> ans;
-    int V, b, e=-1, ansLength = -1;
+    int V, b, e, ansLength = -1;
 
     int bfs() {
         queue<pair<int, int>> q;
@@ -68,7 +68,6 @@ class Solution {
         return -1;
     }
     void dfs(int i, vector<int> visited, vector<string> seq, vector<string>& wordList) {
-        cout<<"h"<< i<<endl;
         if (seq.size() >= ansLength) return;
         seq.push_back(wordList[i]);
         if (i == e) {
@@ -77,8 +76,7 @@ class Solution {
         }
         visited[i] = true;
         for (int j: adjList[i]){
-            if (visited[j]) continue;
-            cout<<"f"<<i<<endl;
+            if (visited[i]) continue;
             dfs(j,visited,seq,wordList);
         }
     }
@@ -110,19 +108,18 @@ class Solution {
         for (int i = 0; i < V; i++) {
             if (wordList[i] == endWord) e = i;
         }
-        if (e==-1) return ans;
 
         ansLength = bfs();
         if (ansLength == -1) return ans;
         vector<int> visited(V, false);
         dfs(b,visited,{},wordList);
-        return ans;
     }
+    return ans;
 };
 
 int main() {
     Solution s;
-    vector<string> wordList = {"hot","dot","dog","lot","log"};
+    vector<string> wordList = {"hot","dot","dog","lot","log","cog"};
     s.findLadders("hit", "cog", wordList);
     return 0;
 }

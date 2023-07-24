@@ -1,5 +1,5 @@
-// TC: O()
-// SC: O()
+// TC: O(N + 2E)
+// SC: O(N)
 #include <bits/stdc++.h>
 using namespace std;
 
