@@ -3,126 +3,42 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-class Solution1 {
-   public:
-    vector<vector<string>> findLadders(string beginWord, string endWord, vector<string>& wordList) {
-        vector<vector<string>> ans;
-        int ansLength = -1;
-        unordered_set<string> s(wordList.begin(), wordList.end());
-        queue<pair<string, vector<string>>> q;
-        q.push({beginWord, {beginWord}});
-        while (!q.empty()) {
-            string w = q.front().first;
-            vector<string> v = q.front().second;
-            q.pop();
-            if (ansLength != -1 && v.size() != ansLength) continue;
-            if (w == endWord) {
-                if (ansLength == -1) {
-                    ans.push_back(v);
-                    ansLength = v.size();
-                    continue;
-                }
-                ans.push_back(v);
-                continue;
+vector<int> divisibleSet(vector<int> &arr){
+    sort(arr.begin(), arr.end());
+    int n=arr.size();
+	vector<int> dp(n,1), hash(n,-1);
+    int maxi=0, maxv=1;
+    for(int i=0;i<n;i++){
+        for(int j=0;j<i;j++)
+            if (arr[i] % arr[j] == 0 && dp[i]<dp[j]+1){
+                dp[i]=dp[j]+1;
+                hash[i]=j;
             }
-            int ws = w.size();
-            for (int i = 0; i < ws; i++) {
-                char r = w[i];
-                for (char c = 'a'; c <= 'z'; c++) {
-                    w[i] = c;
-                    if (auto search = s.find(w); search != s.end()) {
-                        if (w != endWord) s.erase(search);
-                        v.push_back(w);
-                        q.push({w, v});
-                        v.pop_back();
-                    }
-                }
-                w[i] = r;
-            }
-        }
-
-        return ans;
-    }
-};
-
-class Solution {
-   private:
-    vector<vector<int>> adjList;
-    vector<vector<string>> ans;
-    int V, b, e=-1, ansLength = -1;
-
-    int bfs() {
-        queue<pair<int, int>> q;
-        vector<int> visited(V, false);
-        q.push({b, 1});
-        while (!q.empty()) {
-            pair<int, int> p = q.front();
-            q.pop();
-            visited[p.first] = true;
-            for (int i : adjList[p.first]) {
-                if (e == i) return p.second + 1;
-                if (visited[i]) continue;
-                q.push({i, p.second + 1});
-            }
-        }
-        return -1;
-    }
-    void dfs(int i, vector<int> visited, vector<string> seq, vector<string>& wordList) {
-        cout<<"h"<< i<<endl;
-        if (seq.size() >= ansLength) return;
-        seq.push_back(wordList[i]);
-        if (i == e) {
-            ans.push_back(seq);
-            return;
-        }
-        visited[i] = true;
-        for (int j: adjList[i]){
-            if (visited[j]) continue;
-            cout<<"f"<<i<<endl;
-            dfs(j,visited,seq,wordList);
+        if (dp[i]>maxv){
+            maxv=dp[i];
+            maxi=i;
         }
     }
-
-   public:
-    vector<vector<string>> findLadders(string beginWord, string endWord, vector<string>& wordList) {
-        wordList.push_back(beginWord);
-        V = wordList.size();
-
-        adjList.resize(V);
-        for (int i = 0; i < V; i++) {
-            for (int j = i + 1; j < V; j++) {
-                int count = 2;
-                int k = wordList[i].size() - 1;
-
-                while (k != -1 && count != 0) {
-                    if (wordList[i][k] != wordList[j][k]) count--;
-                    k--;
-                }
-
-                if (count == 1) {
-                    adjList[i].push_back(j);
-                    adjList[j].push_back(i);
-                }
-            }
-        }
-
-        b = V - 1;
-        for (int i = 0; i < V; i++) {
-            if (wordList[i] == endWord) e = i;
-        }
-        if (e==-1) return ans;
-
-        ansLength = bfs();
-        if (ansLength == -1) return ans;
-        vector<int> visited(V, false);
-        dfs(b,visited,{},wordList);
-        return ans;
+    vector<int> v;
+    while(maxi!=-1){
+        v.push_back(arr[maxi]);
+        maxi=hash[maxi];
     }
-};
+    reverse(v.begin(),v.end());
+    return v;
+}
 
 int main() {
-    Solution s;
-    vector<string> wordList = {"hot","dot","dog","lot","log"};
-    s.findLadders("hit", "cog", wordList);
+    // vector<int> v = {4, 8, 10, 240};
+    // Solution s;
+    // v = s.largestDivisibleSubset(v);
+    vector<int> v = {10, 2, 5, 5, 10, 17};
+    v=divisibleSet(v);
+    cout << endl;
+    for (int i : v) {
+        cout << i << " ";
+    }
+    cout << endl;
+
     return 0;
 }

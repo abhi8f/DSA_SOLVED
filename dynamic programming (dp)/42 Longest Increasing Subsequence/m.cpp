@@ -4,19 +4,20 @@
 using namespace std;
 
 class Solution {
-   private:
-    int r(int i, int pre, vector<int>& nums, vector<vector<int>> &mv) {
-        if (i<0) return 0;
-        if (mv[i][pre]!=-1) return mv[i][pre];
-        return mv[i][pre] = max(r(i-1,pre,nums, mv), nums[i]<nums[pre]?1+r(i-1,i,nums, mv):0);
-    }
-
    public:
     int lengthOfLIS(vector<int>& nums) {
-        nums.push_back(INT_MAX);
-        int n=nums.size();
-        vector<vector<int>> mv(n,vector<int>(n,-1));
-        return r(n-2,n-1,nums.mv);
+        int n = nums.size();
+        vector<int> cur(n + 1, 0);
+        for(int j=0;j<n;j++) cur[j]=nums[0] < nums[j]?1:0;
+        cur[n]=1;
+        for(int i=1;i<n;i++)
+            for(int j=n;j>=i+1;j--)
+                cur[j]=max(
+                    cur[j],
+                    (j == nums.size() || nums[i] < nums[j]) ? 1 + cur[i] : 0
+                );
+        
+        return cur[n];
     }
 };
 
