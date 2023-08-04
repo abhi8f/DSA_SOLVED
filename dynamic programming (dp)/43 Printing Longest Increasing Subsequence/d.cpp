@@ -92,7 +92,7 @@ vector<int> printingLongestIncreasingSubsequence(vector<int> arr, int n) {
 vector<int> printingLongestIncreasingSubsequence(vector<int> arr, int n) {
 	vector<int> dp(n,1), hash(n,0);
     hash[0]=-1;
-    int maxi=0, maxv;
+    int maxi=0, maxv=0;
     for(int i=0;i<n;i++){
         for(int j=0;j<i;j++)
             if (dp[i]<dp[j]+1){
