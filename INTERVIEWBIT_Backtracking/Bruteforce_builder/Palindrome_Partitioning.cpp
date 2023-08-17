@@ -32,4 +32,5 @@ vector<vector<string>> partition(string A) {
 
 int main() {
     partition("aab");
+    cout<<"hi"<<endl;
 }
