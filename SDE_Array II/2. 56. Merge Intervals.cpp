@@ -5,17 +5,12 @@ public:
 
         int n=intervals.size();
         vector<vector<int>> ans;
-        int start=0, cur=0, next=1;
+        ans.push_back(intervals[0]);
 
-        while(next<n) { 
-            if (intervals[cur][1]>=intervals[next][1]) next++;
-            else if (intervals[cur][1]>=intervals[next][0]) cur=next++;
-            else {
-                ans.push_back({intervals[start][0], intervals[cur][1]});
-                start=cur=next++;
-            }
+        for(int i=1;i<n;i++){
+            if (intervals[i][0]>ans.back()[1]) ans.push_back(intervals[i]);
+            else ans.back()[1]=max(ans.back()[1], intervals[i][1]);
         }
-        ans.push_back({intervals[start][0], intervals[cur][1]});
         return ans;
     }
 };
