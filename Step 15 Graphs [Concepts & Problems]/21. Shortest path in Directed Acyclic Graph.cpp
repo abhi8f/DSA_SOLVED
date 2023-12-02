@@ -1,3 +1,6 @@
+#include<bits/stdc++.h>
+using namespace std;
+
 class Solution {
 private: 
     void topoDFS(int i, vector<vector<pair<int, int>>> &adj, vector<bool> &vis, stack<int> &topoStack) {
@@ -36,3 +39,7 @@ private:
         return ans;
     }
 };
+
+int main() {
+    return 0;
+}
